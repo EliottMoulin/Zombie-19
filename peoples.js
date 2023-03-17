@@ -6,8 +6,7 @@ const peoples = [
         infection: {
             infected: true,
             variant: "A",
-            vaccine: null,
-            immune: false
+            vaccine: null
         },
         dead: false,
         group: [
@@ -18,8 +17,7 @@ const peoples = [
                 infection: {
                     infected: false,
                     variant: null,
-                    vaccine: null,
-                    immune: false
+                    vaccine: null
                 },
                 dead: false,
                 group: [
@@ -30,8 +28,7 @@ const peoples = [
                         infection: {
                             infected: false,
                             variant: null,
-                            vaccine: null,
-                            immune: false
+                            vaccine: null
                         },
                         dead: false,
                         group: []
@@ -45,8 +42,7 @@ const peoples = [
                 infection: {
                     infected: false,
                     variant: null,
-                    vaccine: null,
-                    immune: false
+                    vaccine: null
                 },
                 dead: false,
                 group: []
@@ -58,8 +54,7 @@ const peoples = [
                 infection: {
                     infected: false,
                     variant: null,
-                    vaccine: null,
-                    immune: false
+                    vaccine: null
                 },
                 dead: false,
                 group: [
@@ -70,8 +65,7 @@ const peoples = [
                         infection: {
                             infected: false,
                             variant: null,
-                            vaccine: null,
-                            immune: false
+                            vaccine: null
                         },
                         dead: false,
                         group: []
@@ -83,8 +77,7 @@ const peoples = [
                         infection: {
                             infected: false,
                             variant: null,
-                            vaccine: null,
-                            immune: false
+                            vaccine: null
                         },
                         dead: false,
                         group: []
@@ -98,8 +91,7 @@ const peoples = [
                 infection: {
                     infected: false,
                     variant: null,
-                    vaccine: null,
-                    immune: false
+                    vaccine: null
                 },
                 dead: false,
                 group: []
@@ -114,8 +106,7 @@ const peoples = [
             infected: false,
             variant: null,
             vaccine: null,
-            vaccine: null,
-            immune: false
+            vaccine: null
         },
         dead: false,
         group: [
@@ -126,8 +117,7 @@ const peoples = [
                 infection: {
                     infected: false,
                     variant: null,
-                    vaccine: null,
-                    immune: false
+                    vaccine: null
                 },
                 dead: false,
                 group: []
@@ -139,8 +129,7 @@ const peoples = [
                 infection: {
                     infected: false,
                     variant: null,
-                    vaccine: null,
-                    immune: false
+                    vaccine: null
                 },
                 dead: false,
                 group: []

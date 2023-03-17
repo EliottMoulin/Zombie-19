@@ -19,13 +19,21 @@ const VACCINE = {
 // Zombie-A
 function infectionRecursive_A(group, spread = false) {
     group.forEach(people => {
-        if (spread && !people.infection.infected) {
+        if (spread && !people.infection.infected && people.infection.vaccine !== VACCINE.A) {
             people.infection.infected = true;
             people.infection.variant = VARIANT.A;
         }
-        people.infection.infected && group.forEach(person => { person.infection.infected = true; people.infection.variant = "A"; });
 
-        people.group.length > 0 && infectionRecursive_A(people.group, person.infection.infected);
+        if (people.infection.infected) {
+            group.forEach(person => {
+                if (person.infection.vaccine !== VACCINE.A) {
+                    person.infection.infected = true;
+                    person.infection.variant = VARIANT.A;
+                }
+            });
+        }
+
+        people.group.length > 0 && infectionRecursive_A(people.group, people.infection.infected);
     });
 }
 
@@ -38,8 +46,10 @@ function infectionRecursive_B(group, path = []) {
 
         if (people.infection.infected) {
             path.slice().reverse().forEach(({ group, index }) => {
-                group[index].infection.infected = true;
-                group[index].infection.variant = VARIANT.B;
+                if (group[index].infection.vaccine !== VACCINE.B){
+                    group[index].infection.infected = true;
+                    group[index].infection.variant = VARIANT.B;
+                }
             });
         }
     });
@@ -55,14 +65,14 @@ function infectionRecursive_32(group, path = []) {
         if (people.age >= 32) {
             // Propager l'infection aux personnes dans les groupes enfants
             people.group.forEach(child => {
-                if (child.age >= 32) {
+                if (child.age >= 32 && child.infection.vaccine !== VACCINE.A) {
                     child.infection.infected = true;
                     child.infection.variant = VARIANT.V32;
                 }
             });
             // Propager l'infection aux parents
             path.slice().reverse().forEach(({ group, index }) => {
-                if (group[index].age >= 32) {
+                if (group[index].age >= 32 && group[index].infection.vaccine !== VACCINE.A) {
                     group[index].infection.infected = true;
                     group[index].infection.variant = VARIANT.V32;
                 }
@@ -75,7 +85,7 @@ function infectionRecursive_32(group, path = []) {
 function infectionRecursive_C(group) {
     const uninfectedPeople = group.filter(people => !people.infection.infected);
     uninfectedPeople.forEach((people, index) => {
-        if (index % 2 === 0) {
+        if (index % 2 === 0 && people.infection.vaccine !== VACCINE.B) {
             people.infection.infected = group.some(p => { p.infection.infected; p.infection.variant = VARIANT.C; });
         }
     });
@@ -94,7 +104,7 @@ function infectionRecursive_Ultime(group, root = null) {
             infectionRecursive_Ultime(person.group, root || person);
         }
 
-        if (person.infected && root) {
+        if (person.infected && root && root.infection.vaccine !== VACCINE.ULTIME) {
             root.infection.infected = true;
             root.infection.variant = VARIANT.ULTIME;
         }
@@ -113,14 +123,45 @@ function curationRecursive_A(group) {
                 person.infection.variant = null;
                 person.infection.infected = false;
                 person.infection.vaccine = VACCINE.A;
-                person.infection.immune = true;
             }
         }
     });
 }
 
 // Vaccin-B
+function curationRecursive_B(group, count = 0) {
+    group.forEach((person) => {
 
+        if (person.infection.infected && !person.dead && (person.infection.variant === VARIANT.B || person.infection.variant === VARIANT.C)) {
+            count++;
+            if ((count) % 2 === 0) {
+                person.infection.infected = false;
+                person.infection.variant = null;
+                person.infection.vaccine = VACCINE.B;
+            } else {
+                person.dead = true;
+            }
+        }
+
+        if (person.group.length > 0) {
+            curationRecursive_B(person.group, count);
+        }
+    });
+}
+
+function curationRecursive_Ultime(group) {
+    group.forEach(person => {
+        if (person.infection.infected && person.infection.variant === VARIANT.ULTIME) {
+            person.infection.infected = false;
+            person.infection.variant = null;
+            person.infection.vaccine = VACCINE.ULTIME;
+        }
+
+        if (person.group.length > 0) {
+            curationRecursive_Ultime(person.group);
+        }
+    });
+}
 
 
 
