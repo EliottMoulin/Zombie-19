@@ -63,14 +63,14 @@ function infectionRecursive_32(group, path = []) {
         }
 
         if (people.age >= 32) {
-            // Propager l'infection aux personnes dans les groupes enfants
+           
             people.group.forEach(child => {
                 if (child.age >= 32 && child.infection.vaccine !== VACCINE.A) {
                     child.infection.infected = true;
                     child.infection.variant = VARIANT.V32;
                 }
             });
-            // Propager l'infection aux parents
+            
             path.slice().reverse().forEach(({ group, index }) => {
                 if (group[index].age >= 32 && group[index].infection.vaccine !== VACCINE.A) {
                     group[index].infection.infected = true;
@@ -149,6 +149,7 @@ function curationRecursive_B(group, count = 0) {
     });
 }
 
+// Vaccin-Ultime
 function curationRecursive_Ultime(group) {
     group.forEach(person => {
         if (person.infection.infected && person.infection.variant === VARIANT.ULTIME) {
@@ -176,7 +177,6 @@ infectionRecursive_Ultime(peoples);
 curationRecursive_A(peoples);
 curationRecursive_B(peoples);
 curationRecursive_Ultime(peoples);
-
 
 
 console.log(peoples);
