@@ -3,21 +3,36 @@ const peoples = [
         id: "1",
         name: "John",
         age: 32,
-        infected: false,
+        infection: {
+            infected: true,
+            variant: "A",
+            vaccine: null,
+            immune: false
+        },
         dead: false,
         group: [
             {
                 id: "2",
                 name: "Sarah",
                 age: 34,
-                infected: true,
+                infection: {
+                    infected: false,
+                    variant: null,
+                    vaccine: null,
+                    immune: false
+                },
                 dead: false,
                 group: [
                     {
                         id: "6",
                         age: 65,
                         name: "Sandra",
-                        infected: true,
+                        infection: {
+                            infected: false,
+                            variant: null,
+                            vaccine: null,
+                            immune: false
+                        },
                         dead: false,
                         group: []
                     },
@@ -27,7 +42,12 @@ const peoples = [
                 id: "3",
                 age: 53,
                 name: "Mark",
-                infected: false,
+                infection: {
+                    infected: false,
+                    variant: null,
+                    vaccine: null,
+                    immune: false
+                },
                 dead: false,
                 group: []
             },
@@ -35,14 +55,24 @@ const peoples = [
                 id: "4",
                 name: "Lucy",
                 age: 25,
-                infected: false,
+                infection: {
+                    infected: false,
+                    variant: null,
+                    vaccine: null,
+                    immune: false
+                },
                 dead: false,
                 group: [
                     {
                         id: "7",
                         name: "Lily",
                         age: 27,
-                        infected: false,
+                        infection: {
+                            infected: false,
+                            variant: null,
+                            vaccine: null,
+                            immune: false
+                        },
                         dead: false,
                         group: []
                     },
@@ -50,7 +80,12 @@ const peoples = [
                         id: "8",
                         name: "Lola",
                         age: 37,
-                        infected: false,
+                        infection: {
+                            infected: false,
+                            variant: null,
+                            vaccine: null,
+                            immune: false
+                        },
                         dead: false,
                         group: []
                     },
@@ -60,7 +95,12 @@ const peoples = [
                 id: "5",
                 name: "Pierre",
                 age: 45,
-                infected: false,
+                infection: {
+                    infected: false,
+                    variant: null,
+                    vaccine: null,
+                    immune: false
+                },
                 dead: false,
                 group: []
             },
@@ -70,14 +110,25 @@ const peoples = [
         id: "9",
         name: "Jane",
         age: 52,
-        infected: false,
+        infection: {
+            infected: false,
+            variant: null,
+            vaccine: null,
+            vaccine: null,
+            immune: false
+        },
         dead: false,
         group: [
             {
                 id: "10",
                 name: "Sandra",
                 age: 28,
-                infected: false,
+                infection: {
+                    infected: false,
+                    variant: null,
+                    vaccine: null,
+                    immune: false
+                },
                 dead: false,
                 group: []
             },
@@ -85,7 +136,12 @@ const peoples = [
                 id: "11",
                 name: "Mark",
                 age: 12,
-                infected: false,
+                infection: {
+                    infected: false,
+                    variant: null,
+                    vaccine: null,
+                    immune: false
+                },
                 dead: false,
                 group: []
             },

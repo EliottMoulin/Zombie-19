@@ -2,15 +2,30 @@
 
 import { peoples } from "./peoples";
 
+const VARIANT = {
+    A: "A",
+    B: "B",
+    V32: "32",
+    C: "C",
+    ULTIME: "Ultime"
+};
+
+const VACCINE = {
+    A: "A",
+    B: "B",
+    ULTIME: "Ultime"
+};
+
 // Zombie-A
 function infectionRecursive_A(group, spread = false) {
     group.forEach(people => {
-        if (spread) {
-            people.infected = true;
+        if (spread && !people.infection.infected) {
+            people.infection.infected = true;
+            people.infection.variant = VARIANT.A;
         }
-        people.infected && group.forEach(person => person.infected = true);
+        people.infection.infected && group.forEach(person => { person.infection.infected = true; people.infection.variant = "A"; });
 
-        people.group.length > 0 && infectionRecursive_A(people.group, people.infected);
+        people.group.length > 0 && infectionRecursive_A(people.group, person.infection.infected);
     });
 }
 
@@ -21,9 +36,10 @@ function infectionRecursive_B(group, path = []) {
             infectionRecursive_B(people.group, [...path, { group, index }]);
         }
 
-        if (people.infected) {
+        if (people.infection.infected) {
             path.slice().reverse().forEach(({ group, index }) => {
-                group[index].infected = true;
+                group[index].infection.infected = true;
+                group[index].infection.variant = VARIANT.B;
             });
         }
     });
@@ -40,13 +56,15 @@ function infectionRecursive_32(group, path = []) {
             // Propager l'infection aux personnes dans les groupes enfants
             people.group.forEach(child => {
                 if (child.age >= 32) {
-                    child.infected = true;
+                    child.infection.infected = true;
+                    child.infection.variant = VARIANT.V32;
                 }
             });
             // Propager l'infection aux parents
             path.slice().reverse().forEach(({ group, index }) => {
                 if (group[index].age >= 32) {
-                    group[index].infected = true;
+                    group[index].infection.infected = true;
+                    group[index].infection.variant = VARIANT.V32;
                 }
             });
         }
@@ -55,10 +73,10 @@ function infectionRecursive_32(group, path = []) {
 
 // Zombie-C
 function infectionRecursive_C(group) {
-    const uninfectedPeople = group.filter(people => !people.infected);
+    const uninfectedPeople = group.filter(people => !people.infection.infected);
     uninfectedPeople.forEach((people, index) => {
         if (index % 2 === 0) {
-            people.infected = group.some(p => p.infected);
+            people.infection.infected = group.some(p => { p.infection.infected; p.infection.variant = VARIANT.C; });
         }
     });
 
@@ -77,20 +95,26 @@ function infectionRecursive_Ultime(group, root = null) {
         }
 
         if (person.infected && root) {
-            root.infected = true;
+            root.infection.infected = true;
+            root.infection.variant = VARIANT.ULTIME;
         }
     });
 }
 
 // Vaccin-A
-function currationRecursive_A(group) {
-    group.forEach(person => {
-        if (person.infected && person.age < 30) {
-            person.infected = false; 
+function curationRecursive_A(group) {
+    group.forEach((person) => {
+        if (person.group.length > 0) {
+            curationRecursive_A(person.group);
         }
 
-        if (person.group.length > 0) {
-            currationRecursive(person.group);
+        if (person.infection.infected && person.age <= 30) {
+            if (person.infection.variant === VARIANT.A || person.infection.variant === VARIANT.V32) {
+                person.infection.variant = null;
+                person.infection.infected = false;
+                person.infection.vaccine = VACCINE.A;
+                person.infection.immune = true;
+            }
         }
     });
 }
@@ -108,9 +132,9 @@ infectionRecursive_C(peoples);
 infectionRecursive_Ultime(peoples);
 
 // ? Test Vaccin : A, B, Ultime
-currationRecursive_A(peoples);
-currationRecursive_B(peoples);
-currationRecursive_Ultime(peoples);
+curationRecursive_A(peoples);
+curationRecursive_B(peoples);
+curationRecursive_Ultime(peoples);
 
 
 
